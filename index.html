@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f8fc">
+  <title>CS4001NI · Java Revision Quiz</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div class="brand-mark">J</div>
+      <div>
+        <p class="eyebrow">CS4001NI · WEEKS 1 &amp; 2</p>
+        <h1>Java Revision Quiz</h1>
+      </div>
+      <span class="top-tag">20 questions</span>
+    </header>
+
+    <section id="student-panel" class="panel student-panel">
+      <div class="intro">
+        <p class="eyebrow">BEFORE YOU START</p>
+        <h2>Let's get started.</h2>
+        <p>Enter your details below. Answer all 20 questions and submit your quiz when you're finished.</p>
+      </div>
+      <form id="student-form" class="student-form">
+        <label>Full name<input id="student-name" name="name" type="text" autocomplete="name" placeholder="Your full name" maxlength="100" required></label>
+        <label>Email address<input id="student-email" name="email" type="email" autocomplete="email" placeholder="you@example.com" maxlength="150" required></label>
+        <label>Section<input id="student-section" name="section" type="text" placeholder="e.g. A / B / C" maxlength="50" required></label>
+        <button class="primary-btn" type="submit">Start quiz <span aria-hidden="true">→</span></button>
+      </form>
+    </section>
+
+    <section id="quiz-panel" class="panel quiz-panel hidden" aria-live="polite">
+      <div class="quiz-meta">
+        <span id="question-counter">QUESTION 1 OF 20</span>
+        <span id="answered-counter">0 of 20 answered</span>
+      </div>
+      <div class="progress-track"><div id="progress-fill" class="progress-fill"></div></div>
+      <div class="question-area">
+        <p class="eyebrow">JAVA FUNDAMENTALS</p>
+        <h2 id="question-text"></h2>
+        <div id="options-list" class="options-list"></div>
+      </div>
+      <div class="quiz-footer">
+        <button id="previous-btn" class="secondary-btn" type="button">← Previous</button>
+        <button id="next-btn" class="primary-btn" type="button">Next question →</button>
+        <button id="submit-btn" class="primary-btn submit-btn hidden" type="button">Submit quiz</button>
+      </div>
+      <p id="quiz-hint" class="hint">Choose one answer to continue.</p>
+    </section>
+
+    <section id="result-panel" class="panel result-panel hidden" aria-live="polite">
+      <div class="result-head">
+        <p class="eyebrow">QUIZ COMPLETED</p>
+        <h2 id="result-title">Your results</h2>
+        <div class="score-ring"><strong id="score-value">0/20</strong><span id="score-percent">0%</span></div>
+        <p id="result-summary"></p>
+        <p id="send-status" class="send-status">Sending your result…</p>
+      </div>
+      <div class="review-head"><h3>Answer review</h3><span>Correct answers and explanations</span></div>
+      <div id="review-list" class="review-list"></div>
+      <button id="restart-btn" class="secondary-btn restart-btn" type="button">Start again</button>
+    </section>
+    <footer>CS4001NI · Java Revision Weeks 1 &amp; 2</footer>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>
