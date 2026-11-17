@@ -1,6 +1,7 @@
 # CS4001NI Java Revision Quiz
 
 A static quiz site with a Netlify Function that forwards submissions to Discord.
+After completing the quiz, students can download their score and answer review as a PDF.
 
 ## Deploy to Netlify
 

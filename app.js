@@ -143,6 +143,71 @@ function renderReview() {
   });
 }
 
+$("download-btn").addEventListener("click", () => {
+  const jsPDF = window.jspdf?.jsPDF;
+  if (!jsPDF) {
+    $("send-status").textContent = "The PDF download is unavailable right now. Please try again.";
+    $("send-status").style.color = "#c24f55";
+    return;
+  }
+
+  const score = answers.reduce((total, answer, index) => total + (answer === QUESTIONS[index].answer ? 1 : 0), 0);
+  const percent = Math.round((score / QUESTIONS.length) * 100);
+  const pdf = new jsPDF();
+  const margin = 18;
+  const pageWidth = pdf.internal.pageSize.getWidth();
+  const contentWidth = pageWidth - margin * 2;
+  let y = 20;
+
+  const addWrappedText = (text, x, maxWidth, lineHeight = 5) => {
+    const lines = pdf.splitTextToSize(text, maxWidth);
+    pdf.text(lines, x, y);
+    y += lines.length * lineHeight;
+  };
+  const addPageIfNeeded = (height = 10) => {
+    if (y + height > 280) {
+      pdf.addPage();
+      y = 20;
+    }
+  };
+
+  pdf.setFontSize(18);
+  pdf.setFont("helvetica", "bold");
+  pdf.text("CS4001NI Java Revision Quiz", margin, y);
+  y += 10;
+  pdf.setFontSize(11);
+  pdf.setFont("helvetica", "normal");
+  pdf.text(`Student: ${student.name}`, margin, y);
+  y += 6;
+  pdf.text(`Email: ${student.email}`, margin, y);
+  y += 6;
+  pdf.text(`Section: ${student.section}`, margin, y);
+  y += 9;
+  pdf.setFont("helvetica", "bold");
+  pdf.text(`Score: ${score}/${QUESTIONS.length} (${percent}%)`, margin, y);
+  y += 10;
+  pdf.setFont("helvetica", "normal");
+  pdf.setDrawColor(220, 222, 232);
+  pdf.line(margin, y, pageWidth - margin, y);
+  y += 9;
+
+  QUESTIONS.forEach((item, index) => {
+    const correct = answers[index] === item.answer;
+    addPageIfNeeded(30);
+    pdf.setFont("helvetica", "bold");
+    pdf.setFontSize(10);
+    addWrappedText(`${index + 1}. ${item.question}`, margin, contentWidth, 4.5);
+    pdf.setFont("helvetica", "normal");
+    addWrappedText(`Result: ${correct ? "Correct" : "Incorrect"}`, margin, contentWidth, 4.5);
+    addWrappedText(`Your answer: ${letters[answers[index]]}. ${item.options[answers[index]]}`, margin, contentWidth, 4.5);
+    addWrappedText(`Correct answer: ${letters[item.answer]}. ${item.options[item.answer]}`, margin, contentWidth, 4.5);
+    addWrappedText(`Explanation: ${item.explanation}`, margin, contentWidth, 4.5);
+    y += 4;
+  });
+
+  pdf.save(`java-quiz-result-${student.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "student"}.pdf`);
+});
+
 $("restart-btn").addEventListener("click", () => {
   current = 0;
   answers = Array(QUESTIONS.length).fill(null);
